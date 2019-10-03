@@ -1,3 +1,3 @@
 # CeeLearnAndDoo
-doe het
+
 EEEEEYYYY BITCH BOYS GA AAN JE WERK
