@@ -14,6 +14,7 @@ namespace CLD.Models
         public DateTime CreationDate { get; set; }
         public char Content { get; set; }
         public bool isVisible { get; set; }
+        public string test { get; set; }
 
     }
 }
