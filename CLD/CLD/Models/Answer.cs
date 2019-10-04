@@ -7,7 +7,7 @@ namespace CLD.Models
 {
     public class Answer
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public int QuestionId { get; set; }
         public int ConsultantId { get; set; }
 
