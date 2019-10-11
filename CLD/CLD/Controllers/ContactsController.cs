@@ -151,6 +151,12 @@ namespace CLD.Controllers
         {
             return _context.Contact.Any(e => e.Id == id);
         }
+        //View: Contact
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         // POST: Mail + Add into Database
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -160,7 +166,7 @@ namespace CLD.Controllers
             msg.From = new MailAddress("brianstestmail@gmail.com");
             msg.To.Add(info.Email);
             msg.Subject = info.Subject;
-            msg.Body = "From: " + info.Firstname + info.Middlename + info.Lastname + Environment.NewLine +
+            msg.Body = "From: " + info.Firstname + " " + info.Middlename + " " + info.Lastname + Environment.NewLine +
                 "Recipient: " + msg.From + Environment.NewLine + Environment.NewLine +
                 "Content: " + info.Content;
 
@@ -179,7 +185,7 @@ namespace CLD.Controllers
                     await _context.SaveChangesAsync();
 
                     ModelState.Clear();
-                    return View("Index");
+                    return View("/Home/Index");
                 }
 
                 catch (Exception ex)
