@@ -1,0 +1,52 @@
+﻿@model CLD.Models.Contact
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<h1>Contact</h1>
+<h3>Contact informatie</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Contact">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Firstname" class="control-label"></label>
+                <input asp-for="Firstname" class="form-control" />
+                <span asp-validation-for="Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Middlename" class="control-label"></label>
+                <input asp-for="Middlename" class="form-control" />
+                <span asp-validation-for="Middlename" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lastname" class="control-label"></label>
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label><br />
+                <textarea rows="5" cols="15" asp-for="Content" class="form-control" placeholder="Type something in here"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<footer><a href="Index.cshtml">Return Home</a></footer>
+

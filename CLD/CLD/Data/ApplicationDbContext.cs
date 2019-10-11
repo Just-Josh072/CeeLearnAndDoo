@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CLD.Models;
 
 namespace CLD.Data
 {
@@ -12,5 +13,6 @@ namespace CLD.Data
             : base(options)
         {
         }
+        public DbSet<CLD.Models.Contact> Contact { get; set; }
     }
 }
