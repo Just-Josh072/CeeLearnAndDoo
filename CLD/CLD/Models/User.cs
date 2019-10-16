@@ -8,7 +8,7 @@ namespace CLD.Models
     public class User
     {
         public int Id { get; set; }
-        public char Email { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         [get: System.Security.SecurityCritical]
         [set: System.Security.SecurityCritical]

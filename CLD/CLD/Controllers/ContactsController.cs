@@ -164,7 +164,7 @@ namespace CLD.Controllers
         {
             MailMessage msg = new MailMessage(); //Contains the form info
             msg.From = new MailAddress("brianstestmail@gmail.com");
-            msg.To.Add(info.Email);
+            msg.To.Add(info.Email);              // The email that has been filled in
             msg.Subject = info.Subject;
             msg.Body = "From: " + info.Firstname + " " + info.Middlename + " " + info.Lastname + Environment.NewLine +
                 "Recipient: " + msg.From + Environment.NewLine + Environment.NewLine +
@@ -185,7 +185,7 @@ namespace CLD.Controllers
                     await _context.SaveChangesAsync();
 
                     ModelState.Clear();
-                    return View("/Home/Index");
+                    return View();
                 }
 
                 catch (Exception ex)

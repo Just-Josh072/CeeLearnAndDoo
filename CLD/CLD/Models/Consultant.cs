@@ -7,10 +7,11 @@ namespace CLD.Models
 {
     public class Consultant
     {
-        public int id { get; set; }
+        public int Id { get; set; }
+        public User User { get; set; }
         public int UserId { get; set; }
-        public char ImageUrl { get; set; }
-        public char Biography { get; set; }
+        public string ImageUrl { get; set; }
+        public string Biography { get; set; }
         public ICollection<Article> Article { get; set; }
         public ICollection<Answer> Answer { get; set; }
         public ICollection<ConsultantExpertise> ConsultantExpertise { get; set; }
@@ -18,14 +19,17 @@ namespace CLD.Models
 
     public class ConsultantExpertise
     {
-        public int ConsultantId { get; set; }
+        public int Id { get; set; }
+        public Consultant Consultant { get; set; }
+        public Expertise Expertise { get; set; }
         public int ExpertiseId { get; set; }
     }
 
     public class Expertise
     {
         public int Id { get; set; }
-        public char Name { get; set; }
+        public string Name { get; set; }
+        public ICollection<ConsultantExpertise> ConsultantExpertise { get; set; }
 
 
     }

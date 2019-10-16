@@ -14,5 +14,6 @@ namespace CLD.Data
         {
         }
         public DbSet<CLD.Models.Contact> Contact { get; set; }
+        public DbSet<CLD.Models.Article> Article { get; set; }
     }
 }
