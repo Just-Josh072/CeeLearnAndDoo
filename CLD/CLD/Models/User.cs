@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CLD.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public char Email { get; set; }
-        public string Password { get; set; }
-        [get: System.Security.SecurityCritical]
-        [set: System.Security.SecurityCritical]
+       
+        
         public string Username { get; set; }
         public string Firstname { get; set; }
         public string Middlename { get; set; }
