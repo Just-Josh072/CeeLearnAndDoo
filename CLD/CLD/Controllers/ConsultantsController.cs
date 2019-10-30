@@ -87,7 +87,7 @@ namespace CLD.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,UserId,ImageUrl,Biography")] Consultant consultant)
+        public async Task<IActionResult> Edit(int id, [Bind("id,UserId,ImageUrl,Biography")] Consultant consultant, IFormFile ImageUrl)
         {
             if (id != consultant.Id)
             {
