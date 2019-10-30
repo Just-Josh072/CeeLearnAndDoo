@@ -10,7 +10,7 @@ namespace CLD.Models
         public int Id { get; set; }
         public int ConsultantId { get; set; }
         public int CategoryId { get; set; }
-        public char Title { get; set; }
+        public char ArticleTitle { get; set; }
         public DateTime CreationDate { get; set; }
         public char Content { get; set; }
         public bool IsVisible { get; set; }

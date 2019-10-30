@@ -9,6 +9,7 @@ namespace CLD.Models
     public class Userding : IdentityUser
     {
         public string Username { get; set; }
+        //kaas
 
 
     }
