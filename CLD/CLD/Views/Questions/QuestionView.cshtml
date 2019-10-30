@@ -1,0 +1,106 @@
+﻿@model CLD.Models.QuestionViewModel
+@{
+    ViewData["Title"] = "QuestionView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <script src="https://cdn.tiny.cloud/1/n81yrwymvhgop71oizp7853121lfyiuvlilb9woa3yt2y04i/tinymce/5/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#VraagInhoud',
+            plugins: 'codesample emoticons',
+            height: 500,
+            width: 1000,
+            codesample_languages: [
+                { text: 'HTML/XML', value: 'markup' },
+                { text: 'JavaScript', value: 'javascript' },
+                { text: 'CSS', value: 'css' },
+                { text: 'PHP', value: 'php' },
+                { text: 'Ruby', value: 'ruby' },
+                { text: 'Python', value: 'python' },
+                { text: 'Java', value: 'java' },
+                { text: 'C', value: 'c' },
+                { text: 'C#', value: 'csharp' },
+                { text: 'C++', value: 'cpp' }
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect | codesample | emoticons |"
+        });
+    </script>
+</head>
+<h1>Create a Question</h1>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="QuestionView">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Question.QuestionTitle" class="control-label"></label>
+                <input asp-for="Question.QuestionTitle" class="form-control" />
+                <span asp-validation-for="Question.QuestionTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question.QuestionContent" class="control-label"></label><br />
+                <textarea id="VraagInhoud" asp-for="Question.QuestionContent">Stel Uw Vraag</textarea>
+                <span asp-validation-for="Question.QuestionContent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="QuestionView" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<h1>Gestelde vragen</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.QuestionTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.QuestionContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question.UserId)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Questions)
+        {
+            if (item.isVisible == true)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionTitle)
+                </td>
+                <td>
+                    @Html.Raw(item.QuestionContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>

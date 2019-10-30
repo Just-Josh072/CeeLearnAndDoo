@@ -4,16 +4,14 @@ using CLD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CLD.Data.Migrations
+namespace CLD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191011101513_consultant2")]
-    partial class consultant2
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +81,13 @@ namespace CLD.Data.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<string>("UserId1");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ArticleComment");
                 });
@@ -103,6 +105,8 @@ namespace CLD.Data.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Consultant");
                 });
@@ -135,18 +139,54 @@ namespace CLD.Data.Migrations
                     b.ToTable("Expertise");
                 });
 
-            modelBuilder.Entity("CLD.Models.UserViewModel", b =>
+            modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email");
+                    b.Property<int>("CategoryId");
 
-                    b.Property<string>("Name");
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("QuestionContent")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
+
+                    b.Property<string>("QuestionTitle")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
+
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.Property<bool>("isVisible");
+
+                    b.HasKey("QuestionId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Question");
+                });
+
+            modelBuilder.Entity("CLD.Models.QuestionComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
+
+                    b.Property<int>("QuestionId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserViewModel");
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionComment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -203,6 +243,9 @@ namespace CLD.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -242,6 +285,8 @@ namespace CLD.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -314,6 +359,38 @@ namespace CLD.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CLD.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Firstname");
+
+                    b.Property<string>("Lastname");
+
+                    b.Property<string>("Middlename");
+
+                    b.Property<string>("UserViewModelId");
+
+                    b.Property<string>("Username");
+
+                    b.HasIndex("UserViewModelId");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
+            modelBuilder.Entity("CLD.Models.UserViewModel", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue("UserViewModel");
+                });
+
             modelBuilder.Entity("CLD.Models.Answer", b =>
                 {
                     b.HasOne("CLD.Models.Consultant")
@@ -336,6 +413,17 @@ namespace CLD.Data.Migrations
                         .WithMany("ArticleComment")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CLD.Models.User")
+                        .WithMany("ArticleComment")
+                        .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("CLD.Models.Consultant", b =>
+                {
+                    b.HasOne("CLD.Models.User")
+                        .WithMany("Consultant")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("CLD.Models.ConsultantExpertise", b =>
@@ -348,6 +436,21 @@ namespace CLD.Data.Migrations
                     b.HasOne("CLD.Models.Expertise", "Expertise")
                         .WithMany("ConsultantExpertise")
                         .HasForeignKey("ExpertiseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CLD.Models.Question", b =>
+                {
+                    b.HasOne("CLD.Models.User")
+                        .WithMany("Question")
+                        .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("CLD.Models.QuestionComment", b =>
+                {
+                    b.HasOne("CLD.Models.Question", "Question")
+                        .WithMany("QuestionComment")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -394,6 +497,20 @@ namespace CLD.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CLD.Models.User", b =>
+                {
+                    b.HasOne("CLD.Models.UserViewModel")
+                        .WithMany("Users")
+                        .HasForeignKey("UserViewModelId");
+                });
+
+            modelBuilder.Entity("CLD.Models.UserViewModel", b =>
+                {
+                    b.HasOne("CLD.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
