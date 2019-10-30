@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +11,9 @@ namespace CLD.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        [Display(Name = "Foto")]
         public string ImageUrl { get; set; }
+        [Display(Name = "Omschrijving")]
         public string Biography { get; set; }
         public ICollection<Article> Article { get; set; }
         public ICollection<Answer> Answer { get; set; }

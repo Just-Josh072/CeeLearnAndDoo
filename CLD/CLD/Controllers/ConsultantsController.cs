@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CLD.Data;
 using CLD.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CLD.Controllers
 {
@@ -149,5 +150,24 @@ namespace CLD.Controllers
         {
             return _context.Consultant.Any(e => e.Id == id);
         }
+        // POST: Consultant/Edit (counts the amount of images)
+        //public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        //{
+        //    long size = files.Sum(f => f.Length);
+        //    foreach (var formFile in files)
+        //    {
+        //        if (formFile.Length > 0)
+        //            {
+        //            var filePath = Path.GetTempFileName();
+        //            using (var stream = System.IO.File.Create(filePath))
+        //            {
+        //                await formFile.CopyToAsync(stream);
+        //            }
+        //        }
+        //    }
+        //    // Process upload files
+        //    return Ok(new { count = files.Count, size, filePath });
+        //} 
     }
+
 }
