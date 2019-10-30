@@ -26,10 +26,10 @@ namespace CLD.Controllers
         // GET: Users
         public IActionResult Index()
         {
-            List<UserViewModel> list = new List<UserViewModel>();
+            List<User> list = new List<User>();
             foreach (var user in _userManager.Users)
             {
-                UserViewModel uvm = new UserViewModel();
+                User uvm = new User();
                 uvm.Email = user.Email;
                 uvm.UserName = user.UserName;
                 uvm.Id = user.Id;
@@ -47,7 +47,7 @@ namespace CLD.Controllers
                 return NotFound();
             }
 
-            var userViewModel = await _context.UserViewModel
+            var userViewModel = await _context.User
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userViewModel == null)
             {
@@ -66,7 +66,7 @@ namespace CLD.Controllers
                 return NotFound();
             }
 
-            var userViewModel = await _context.UserViewModel.FindAsync(id);
+            var userViewModel = await _context.User.FindAsync(id);
             if (userViewModel == null)
             {
                 return NotFound();
