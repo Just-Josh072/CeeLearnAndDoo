@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CLD.Models
 {
-    public class UserViewModel : IdentityUser
-
+    public class Userding : IdentityUser
     {
-       
         public string Username { get; set; }
-        
+
+
     }
 }

@@ -31,7 +31,7 @@ namespace CLD.Controllers
             {
                 UserViewModel uvm = new UserViewModel();
                 uvm.Email = user.Email;
-                uvm.Name = user.UserName;
+                uvm.UserName = user.UserName;
                 uvm.Id = user.Id;
 
                 list.Add(uvm);
