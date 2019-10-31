@@ -12,6 +12,14 @@ namespace CLD.Models
         public string UserId { get; set; }
         [Display(Name = "Foto")]
         public string ImageUrl { get; set; }
+        public string GetProfileImageUrl()
+        {
+            if (string.IsNullOrEmpty(ImageUrl))
+            {
+                return "http://placehold.it/50x50";
+            }
+            return ImageUrl;
+        }
         [Display(Name = "Omschrijving")]
         public string Biography { get; set; }
         public ICollection<Article> Article { get; set; }
