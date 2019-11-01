@@ -8,6 +8,7 @@ namespace CLD.Models
     public class Answer
     {
         public int Id { get; set; }
+        public Consultant Consultant { get; set; }
         public int QuestionId { get; set; }
         public int ConsultantId { get; set; }
 

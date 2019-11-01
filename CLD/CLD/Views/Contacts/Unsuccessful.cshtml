@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Unsuccessful";
+}
+
+<h1>Unsuccessful</h1>
+<h3>Oops! something went wrong..</h3>
+<h4>We will try our best to figure out what went wrong</h4>
+<br />
+@if (ViewBag.Message != null)
+{
+    <script>alert("@ViewBag.Message")</script>
+}
+<footer><a asp-controller="Home" asp-action="Index">Return Home</a></footer>a
+
+
