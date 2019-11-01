@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CLD.Models
 {//  Gemaakt door iemand met Dyslexie *kuch* Joshua *kuch*
+    //je moet inloggen als admin #kijkInDe:Seed.cs
     public class Consultant
     {
         public int Id { get; set; }

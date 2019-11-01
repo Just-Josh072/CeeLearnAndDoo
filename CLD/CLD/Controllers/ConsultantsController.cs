@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CLD.Data;
 using CLD.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CLD.Controllers
 {
+    [Authorize(Roles= "Consultant")]
     public class ConsultantsController : Controller
     {
         private readonly ApplicationDbContext _context;
