@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace CLD.Models
 {
     public class UserViewModel : IdentityUser
-
     {
-       
-        public string Username { get; set; }
-        
+        public User User { get; set; }
+
+        public List<User> Users { get; set; }
     }
 }
