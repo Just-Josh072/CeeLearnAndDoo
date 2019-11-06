@@ -15,7 +15,7 @@ namespace CLD.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -180,17 +180,17 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.Property<int>("QuestionId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<string>("Content");
+
                     b.Property<DateTime>("CreationDate");
 
-                    b.Property<string>("QuestionContent");
-
-                    b.Property<string>("QuestionTitle");
+                    b.Property<string>("Title");
 
                     b.Property<int>("UserId");
 
@@ -198,7 +198,7 @@ namespace CLD.Migrations
 
                     b.Property<bool>("isVisible");
 
-                    b.HasKey("QuestionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -306,8 +306,7 @@ namespace CLD.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                    
 
                     b.HasKey("Id");
 

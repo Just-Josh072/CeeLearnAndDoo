@@ -70,6 +70,14 @@ namespace CLD
             Seed.SeedUsers(userManager, roleManager);
             app.UseMvc(routes =>
             {
+                routes.MapAreaRoute(
+                 name: "Admin",
+                 areaName: "Admin",
+                 template: "Admin/{controller=Home}/{action=Index}/{id?}");
+                routes.MapAreaRoute(
+                name: "Consultant",
+                areaName: "Consultant",
+                template: "Consultant/{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

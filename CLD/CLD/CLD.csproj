@@ -6,6 +6,28 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Areas\Consultant\**" />
+    <Content Remove="Areas\Consultant\**" />
+    <EmbeddedResource Remove="Areas\Consultant\**" />
+    <None Remove="Areas\Consultant\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Areas\Consultant\Views\Shared\_Layout.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Areas\Consultant\Views\Home\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Areas\Consultant\_ViewImports.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Areas\Consultant\_ViewStart.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -15,19 +37,19 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\admin\Data\" />
+    <Folder Include="Areas\admin\Models\" />
+    <Folder Include="Areas\Consultant\Controllers\" />
+    <Folder Include="Areas\Consultant\Data\" />
+    <Folder Include="Areas\Consultant\Models\" />
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Areas\admin\Controllers\" />
-    <Folder Include="Areas\admin\Data\" />
-    <Folder Include="Areas\admin\Models\" />
-    <Folder Include="Areas\admin\Views\" />
-    <Folder Include="Areas\Consultant\Controllers\" />
-    <Folder Include="Areas\Consultant\Data\" />
-    <Folder Include="Areas\Consultant\Models\" />
-    <Folder Include="Areas\Consultant\Views\" />
+    <None Include="Areas\admin\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\admin\_ViewImports.cshtml" />
+    <None Include="Areas\admin\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>
