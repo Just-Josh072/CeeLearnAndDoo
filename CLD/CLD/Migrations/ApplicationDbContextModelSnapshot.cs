@@ -180,17 +180,17 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<string>("Content");
-
                     b.Property<DateTime>("CreationDate");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("QuestionContent");
+
+                    b.Property<string>("QuestionTitle");
 
                     b.Property<int>("UserId");
 
@@ -198,7 +198,7 @@ namespace CLD.Migrations
 
                     b.Property<bool>("isVisible");
 
-                    b.HasKey("Id");
+                    b.HasKey("QuestionId");
 
                     b.HasIndex("CategoryId");
 

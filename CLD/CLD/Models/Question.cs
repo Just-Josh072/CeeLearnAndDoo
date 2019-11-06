@@ -14,6 +14,10 @@ namespace CLD.Models
         public int CategoryId { get; set; }
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
+        public Question()
+        {
+            CreationDate = DateTime.Now;
+        }
         public bool isVisible { get; set; }
         public string Title { get; set; }
         public ICollection<QuestionComment> QuestionComment { get; set; }
