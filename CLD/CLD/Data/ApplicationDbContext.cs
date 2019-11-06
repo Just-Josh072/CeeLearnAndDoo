@@ -31,12 +31,12 @@ namespace CLD.Data
         }
 
     
-      public DbSet<CLD.Models.UserViewModel> UserViewModel { get; set; }
+     
 
     
       public DbSet<CLD.Models.Consultant> Consultant { get; set; }
-
-    
-      public DbSet<CLD.Models.Question> Question { get; set; }
+        public DbSet<CLD.Models.User> User { get; set; }
+        public DbSet<CLD.Models.Contact> Contact { get; set; }
+        public DbSet<CLD.Models.Question> Question { get; set; }
     }
 }

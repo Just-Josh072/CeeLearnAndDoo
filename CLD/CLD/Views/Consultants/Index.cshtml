@@ -6,43 +6,55 @@
 }
 
 <h1>Index</h1>
-
+@*//je moet inloggen als admin #kijkInDe:Seed.cs*@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Biography)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+
+                <div class="col-sm-4">
+                    <a asp-action="Details" asp-controller="Consultants" asp-route-id="@item.Id">
+                        <img class="mx-auto d-block" src="@item.GetProfileImageUrl()" style="border-radius: 50%; width: 150px; height: 150px;" />
+                    </a>
+                    <br />
+                    <a asp-controller="Consultants" asp-action="Details" asp-route-id="@item.Id"><h2><span class="mx-auto d-block" style="text-align: center;">@item.UserId</span></h2></a>
+                    <br />
+                    <p> <span class="mx-auto d-block" style="text-align: center;">@Html.DisplayFor(modelItem => item.Biography)  </span></p>
+
+
+                </div>
+            }
+        </div>
+    </div>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Biography)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @*
+
+                //dit is dan aleen voor de admin
+
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Biography)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Article)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" enctype="multipart/form-data" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+            }*@
     </tbody>
 </table>
+<div>
+
+</div>

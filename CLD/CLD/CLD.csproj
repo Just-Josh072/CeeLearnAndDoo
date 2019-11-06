@@ -15,7 +15,19 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\Question\" />
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\admin\Controllers\" />
+    <Folder Include="Areas\admin\Data\" />
+    <Folder Include="Areas\admin\Models\" />
+    <Folder Include="Areas\admin\Views\" />
+    <Folder Include="Areas\Consultant\Controllers\" />
+    <Folder Include="Areas\Consultant\Data\" />
+    <Folder Include="Areas\Consultant\Models\" />
+    <Folder Include="Areas\Consultant\Views\" />
   </ItemGroup>
 
 </Project>

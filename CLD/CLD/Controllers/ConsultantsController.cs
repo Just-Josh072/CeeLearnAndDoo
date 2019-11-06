@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CLD.Data;
 using CLD.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CLD.Controllers
 {
+    [Authorize(Roles= "Consultant")]
     public class ConsultantsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -54,7 +57,7 @@ namespace CLD.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,ImageUrl,Biography")] Consultant consultant)
+        public async Task<IActionResult> Create([Bind("Id,ImageUrl,Biography")] Consultant consultant)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +89,7 @@ namespace CLD.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,UserId,ImageUrl,Biography")] Consultant consultant)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ImageUrl,Biography")] Consultant consultant, IFormFile ImageUrl)
         {
             if (id != consultant.Id)
             {
@@ -149,5 +152,24 @@ namespace CLD.Controllers
         {
             return _context.Consultant.Any(e => e.Id == id);
         }
+        // POST: Consultant/Edit (counts the amount of images)
+        //public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        //{
+        //    long size = files.Sum(f => f.Length);
+        //    foreach (var formFile in files)
+        //    {
+        //        if (formFile.Length > 0)
+        //            {
+        //            var filePath = Path.GetTempFileName();
+        //            using (var stream = System.IO.File.Create(filePath))
+        //            {
+        //                await formFile.CopyToAsync(stream);
+        //            }
+        //        }
+        //    }
+        //    // Process upload files
+        //    return Ok(new { count = files.Count, size, filePath });
+        //} 
     }
+
 }

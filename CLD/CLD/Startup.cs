@@ -38,7 +38,7 @@ namespace CLD
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -46,8 +46,10 @@ namespace CLD
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,7 +67,7 @@ namespace CLD
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            Seed.SeedUsers(userManager, roleManager);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
