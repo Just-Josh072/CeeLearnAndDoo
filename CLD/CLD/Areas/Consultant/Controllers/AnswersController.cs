@@ -7,28 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CLD.Data;
 using CLD.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
 
-namespace CLD.Controllers
+namespace CLD.Areas.Consultant.Controllers
 {
-    [Authorize(Roles= "Consultant")]
-    public class ConsultantsController : Controller
+    [Area("Consultant")]
+    public class AnswersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ConsultantsController(ApplicationDbContext context)
+        public AnswersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Consultants
+        // GET: Consultant/Answers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Consultant.ToListAsync());
+            var applicationDbContext = _context.Answer.Include(a => a.Consultant);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Consultants/Details/5
+        // GET: Consultant/Answers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +35,42 @@ namespace CLD.Controllers
                 return NotFound();
             }
 
-            var consultant = await _context.Consultant
-                .FirstOrDefaultAsync(m => m.ConsultantId == id);
-            if (consultant == null)
+            var answer = await _context.Answer
+                .Include(a => a.Consultant)
+                .FirstOrDefaultAsync(m => m.AnswerId == id);
+            if (answer == null)
             {
                 return NotFound();
             }
 
-            return View(consultant);
+            return View(answer);
         }
 
-        // GET: Consultants/Create
+        // GET: Consultant/Answers/Create
         public IActionResult Create()
         {
+            ViewData["ConsultantId"] = new SelectList(_context.Consultant, "Id", "Id");
             return View();
         }
 
-        // POST: Consultants/Create
+        // POST: Consultant/Answers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ImageUrl,Biography")] Consultant consultant)
+        public async Task<IActionResult> Create([Bind("AnswerId,QuestionId,ConsultantId,AnswerContent")] Answer answer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(consultant);
+                _context.Add(answer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(consultant);
+            ViewData["ConsultantId"] = new SelectList(_context.Consultant, "Id", "Id", answer.ConsultantId);
+            return View(answer);
         }
 
-        // GET: Consultants/Edit/5
+        // GET: Consultant/Answers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +78,23 @@ namespace CLD.Controllers
                 return NotFound();
             }
 
-            var consultant = await _context.Consultant.FindAsync(id);
-            if (consultant == null)
+            var answer = await _context.Answer.FindAsync(id);
+            if (answer == null)
             {
                 return NotFound();
             }
-            return View(consultant);
+            ViewData["ConsultantId"] = new SelectList(_context.Consultant, "Id", "Id", answer.ConsultantId);
+            return View(answer);
         }
 
-        // POST: Consultants/Edit/5
+        // POST: Consultant/Answers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ImageUrl,Biography")] Consultant consultant, IFormFile ImageUrl)
+        public async Task<IActionResult> Edit(int id, [Bind("AnswerId,QuestionId,ConsultantId,AnswerContent")] Answer answer)
         {
-            if (id != consultant.ConsultantId)
+            if (id != answer.AnswerId)
             {
                 return NotFound();
             }
@@ -100,12 +103,12 @@ namespace CLD.Controllers
             {
                 try
                 {
-                    _context.Update(consultant);
+                    _context.Update(answer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsultantExists(consultant.ConsultantId))
+                    if (!AnswerExists(answer.AnswerId))
                     {
                         return NotFound();
                     }
@@ -116,10 +119,11 @@ namespace CLD.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(consultant);
+            ViewData["ConsultantId"] = new SelectList(_context.Consultant, "Id", "Id", answer.ConsultantId);
+            return View(answer);
         }
 
-        // GET: Consultants/Delete/5
+        // GET: Consultant/Answers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,49 +131,31 @@ namespace CLD.Controllers
                 return NotFound();
             }
 
-            var consultant = await _context.Consultant
-                .FirstOrDefaultAsync(m => m.ConsultantId == id);
-            if (consultant == null)
+            var answer = await _context.Answer
+                .Include(a => a.Consultant)
+                .FirstOrDefaultAsync(m => m.AnswerId == id);
+            if (answer == null)
             {
                 return NotFound();
             }
 
-            return View(consultant);
+            return View(answer);
         }
 
-        // POST: Consultants/Delete/5
+        // POST: Consultant/Answers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var consultant = await _context.Consultant.FindAsync(id);
-            _context.Consultant.Remove(consultant);
+            var answer = await _context.Answer.FindAsync(id);
+            _context.Answer.Remove(answer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConsultantExists(int id)
+        private bool AnswerExists(int id)
         {
-            return _context.Consultant.Any(e => e.ConsultantId == id);
+            return _context.Answer.Any(e => e.AnswerId == id);
         }
-        // POST: Consultant/Edit (counts the amount of images)
-        //public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
-        //{
-        //    long size = files.Sum(f => f.Length);
-        //    foreach (var formFile in files)
-        //    {
-        //        if (formFile.Length > 0)
-        //            {
-        //            var filePath = Path.GetTempFileName();
-        //            using (var stream = System.IO.File.Create(filePath))
-        //            {
-        //                await formFile.CopyToAsync(stream);
-        //            }
-        //        }
-        //    }
-        //    // Process upload files
-        //    return Ok(new { count = files.Count, size, filePath });
-        //} 
     }
-
 }

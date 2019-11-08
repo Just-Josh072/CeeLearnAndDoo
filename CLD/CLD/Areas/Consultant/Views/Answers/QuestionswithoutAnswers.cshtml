@@ -1,0 +1,67 @@
+﻿@model IEnumerable<CLD.Models.Question>
+
+@{
+    ViewData["Title"] = "QuestionswithoutAnswers";
+    Layout = "~/Areas/Consultant/Views/Shared/_Layout.cshtml";
+}
+
+<h1>QuestionswithoutAnswers</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Expertise)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isVisible)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isVisible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
+                <a asp-action="QuestionswithoutAnswers" asp-route-id="@item.QuestionId">Answer</a>
+                <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
