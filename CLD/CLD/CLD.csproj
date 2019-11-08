@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Areas\Consultant\Controllers\AnswersController.cs" />
+    <Compile Include="Areas\Consultant\Models\Answer.cs" />
+    <Compile Include="Areas\Consultant\Models\Article.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Areas\Consultant\Views\Shared\_Layout.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -44,9 +50,7 @@
   <ItemGroup>
     <Folder Include="Areas\admin\Data\" />
     <Folder Include="Areas\admin\Models\" />
-    <Folder Include="Areas\Consultant\Controllers\" />
     <Folder Include="Areas\Consultant\Data\" />
-    <Folder Include="Areas\Consultant\Models\" />
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
@@ -55,6 +59,11 @@
     <None Include="Areas\admin\Views\Shared\_Layout.cshtml" />
     <None Include="Areas\admin\_ViewImports.cshtml" />
     <None Include="Areas\admin\_ViewStart.cshtml" />
+    <None Include="Areas\Consultant\Views\Answers\Create.cshtml" />
+    <None Include="Areas\Consultant\Views\Answers\Delete.cshtml" />
+    <None Include="Areas\Consultant\Views\Answers\Details.cshtml" />
+    <None Include="Areas\Consultant\Views\Answers\Edit.cshtml" />
+    <None Include="Areas\Consultant\Views\Answers\Index.cshtml" />
     <None Include="wwwroot\img\avataaars.svg" />
     <None Include="wwwroot\mail\contact_me.php" />
     <None Include="wwwroot\vendor\bootstrap\js\bootstrap.bundle.js" />

@@ -39,5 +39,6 @@ namespace CLD.Data
         public DbSet<CLD.Models.Contact> Contact { get; set; }
         public DbSet<CLD.Models.Question> Question { get; set; }
         public DbSet<CLD.Models.Expertise> Expertise { get; set; }
+        public DbSet<CLD.Models.Answer> Answer { get; set; }
     }
 }
