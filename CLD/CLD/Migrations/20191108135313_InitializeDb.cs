@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CLD.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitializeDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,24 +45,15 @@ namespace CLD.Migrations
                     Firstname = table.Column<string>(nullable: true),
                     Middlename = table.Column<string>(nullable: true),
                     Lastname = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: true)
+                    CreationDate = table.Column<DateTime>(nullable: true),
+                    IsConsultant = table.Column<bool>(nullable: true),
+                    ConsultantId = table.Column<int>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Biography = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,9 +78,8 @@ namespace CLD.Migrations
                 name: "Expertise",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(nullable: false),
+                    ExpretiseName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -115,6 +105,53 @@ namespace CLD.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Answer",
+                columns: table => new
+                {
+                    AnswerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ConsultantId1 = table.Column<string>(nullable: true),
+                    QuestionId = table.Column<int>(nullable: false),
+                    ConsultantId = table.Column<int>(nullable: false),
+                    AnswerContent = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answer", x => x.AnswerId);
+                    table.ForeignKey(
+                        name: "FK_Answer_AspNetUsers_ConsultantId1",
+                        column: x => x.ConsultantId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Article",
+                columns: table => new
+                {
+                    ArticleId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ConsultantId1 = table.Column<string>(nullable: true),
+                    ConsultantId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
+                    IsVisible = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Article", x => x.ArticleId);
+                    table.ForeignKey(
+                        name: "FK_Article_AspNetUsers_ConsultantId1",
+                        column: x => x.ConsultantId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,35 +240,39 @@ namespace CLD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Consultant",
+                name: "ConsultantExpertise",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Biography = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    ExpertiseId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Consultant", x => x.Id);
+                    table.PrimaryKey("PK_ConsultantExpertise", x => new { x.UserId, x.ExpertiseId });
                     table.ForeignKey(
-                        name: "FK_Consultant_AspNetUsers_UserId",
+                        name: "FK_ConsultantExpertise_Expertise_ExpertiseId",
+                        column: x => x.ExpertiseId,
+                        principalTable: "Expertise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ConsultantExpertise_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Question",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    QuestionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ExpertiseId1 = table.Column<string>(nullable: true),
                     UserId1 = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
+                    ExpertiseId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     isVisible = table.Column<bool>(nullable: false),
@@ -239,120 +280,19 @@ namespace CLD.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Question", x => x.Id);
+                    table.PrimaryKey("PK_Question", x => x.QuestionId);
                     table.ForeignKey(
-                        name: "FK_Question_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
+                        name: "FK_Question_Expertise_ExpertiseId1",
+                        column: x => x.ExpertiseId1,
+                        principalTable: "Expertise",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Question_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Answer",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    QuestionId = table.Column<int>(nullable: false),
-                    ConsultantId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answer", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answer_Consultant_ConsultantId",
-                        column: x => x.ConsultantId,
-                        principalTable: "Consultant",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ConsultantExpertise",
-                columns: table => new
-                {
-                    ConsultantId = table.Column<int>(nullable: false),
-                    ExpertiseId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConsultantExpertise", x => new { x.ConsultantId, x.ExpertiseId });
-                    table.ForeignKey(
-                        name: "FK_ConsultantExpertise_Consultant_ConsultantId",
-                        column: x => x.ConsultantId,
-                        principalTable: "Consultant",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ConsultantExpertise_Expertise_ExpertiseId",
-                        column: x => x.ExpertiseId,
-                        principalTable: "Expertise",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Article",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    QuestionId = table.Column<int>(nullable: true),
-                    ConsultantId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
-                    IsVisible = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Article", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Article_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Article_Consultant_ConsultantId",
-                        column: x => x.ConsultantId,
-                        principalTable: "Consultant",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Article_Question_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Question",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionComment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    QuestionId = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionComment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuestionComment_Question_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Question",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -374,7 +314,7 @@ namespace CLD.Migrations
                         name: "FK_ArticleComment_Article_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Article",
-                        principalColumn: "Id",
+                        principalColumn: "ArticleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ArticleComment_AspNetUsers_UserId1",
@@ -384,25 +324,35 @@ namespace CLD.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "QuestionComment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    QuestionId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionComment_Question_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Question",
+                        principalColumn: "QuestionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Answer_ConsultantId",
+                name: "IX_Answer_ConsultantId1",
                 table: "Answer",
-                column: "ConsultantId");
+                column: "ConsultantId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Article_CategoryId",
+                name: "IX_Article_ConsultantId1",
                 table: "Article",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Article_ConsultantId",
-                table: "Article",
-                column: "ConsultantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Article_QuestionId",
-                table: "Article",
-                column: "QuestionId");
+                column: "ConsultantId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleComment_ArticleId",
@@ -454,19 +404,14 @@ namespace CLD.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consultant_UserId",
-                table: "Consultant",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ConsultantExpertise_ExpertiseId",
                 table: "ConsultantExpertise",
                 column: "ExpertiseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Question_CategoryId",
+                name: "IX_Question_ExpertiseId1",
                 table: "Question",
-                column: "CategoryId");
+                column: "ExpertiseId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Question_UserId1",
@@ -518,16 +463,10 @@ namespace CLD.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Expertise");
-
-            migrationBuilder.DropTable(
-                name: "Consultant");
-
-            migrationBuilder.DropTable(
                 name: "Question");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Expertise");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

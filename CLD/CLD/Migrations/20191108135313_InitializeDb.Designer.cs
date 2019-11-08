@@ -10,37 +10,41 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CLD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191106114359_initial")]
-    partial class initial
+    [Migration("20191108135313_InitializeDb")]
+    partial class InitializeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CLD.Models.Answer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnswerId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AnswerContent");
+
                     b.Property<int>("ConsultantId");
+
+                    b.Property<string>("ConsultantId1");
 
                     b.Property<int>("QuestionId");
 
-                    b.HasKey("Id");
+                    b.HasKey("AnswerId");
 
-                    b.HasIndex("ConsultantId");
+                    b.HasIndex("ConsultantId1");
 
                     b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("CLD.Models.Article", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ArticleId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -48,23 +52,19 @@ namespace CLD.Migrations
 
                     b.Property<int>("ConsultantId");
 
+                    b.Property<string>("ConsultantId1");
+
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<bool>("IsVisible");
 
-                    b.Property<int?>("QuestionId");
-
                     b.Property<string>("Title");
 
-                    b.HasKey("Id");
+                    b.HasKey("ArticleId");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ConsultantId");
-
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("ConsultantId1");
 
                     b.ToTable("Article");
                 });
@@ -94,45 +94,13 @@ namespace CLD.Migrations
                     b.ToTable("ArticleComment");
                 });
 
-            modelBuilder.Entity("CLD.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("CLD.Models.Consultant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Biography");
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Consultant");
-                });
-
             modelBuilder.Entity("CLD.Models.ConsultantExpertise", b =>
                 {
-                    b.Property<int>("ConsultantId");
+                    b.Property<string>("UserId");
 
-                    b.Property<int>("ExpertiseId");
+                    b.Property<string>("ExpertiseId");
 
-                    b.HasKey("ConsultantId", "ExpertiseId");
+                    b.HasKey("UserId", "ExpertiseId");
 
                     b.HasIndex("ExpertiseId");
 
@@ -169,11 +137,10 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Expertise", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("ExpretiseName");
 
                     b.HasKey("Id");
 
@@ -182,15 +149,17 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId");
 
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreationDate");
+
+                    b.Property<int>("ExpertiseId");
+
+                    b.Property<string>("ExpertiseId1");
 
                     b.Property<string>("Title");
 
@@ -200,9 +169,9 @@ namespace CLD.Migrations
 
                     b.Property<bool>("isVisible");
 
-                    b.HasKey("Id");
+                    b.HasKey("QuestionId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ExpertiseId1");
 
                     b.HasIndex("UserId1");
 
@@ -308,7 +277,8 @@ namespace CLD.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -403,38 +373,40 @@ namespace CLD.Migrations
 
                     b.Property<string>("Firstname");
 
+                    b.Property<bool>("IsConsultant");
+
                     b.Property<string>("Lastname");
 
                     b.Property<string>("Middlename");
 
-                    b.Property<string>("Username");
-
                     b.HasDiscriminator().HasValue("User");
+                });
+
+            modelBuilder.Entity("CLD.Models.Consultant", b =>
+                {
+                    b.HasBaseType("CLD.Models.User");
+
+                    b.Property<string>("Biography");
+
+                    b.Property<int>("ConsultantId");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.HasDiscriminator().HasValue("Consultant");
                 });
 
             modelBuilder.Entity("CLD.Models.Answer", b =>
                 {
                     b.HasOne("CLD.Models.Consultant", "Consultant")
                         .WithMany("Answer")
-                        .HasForeignKey("ConsultantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ConsultantId1");
                 });
 
             modelBuilder.Entity("CLD.Models.Article", b =>
                 {
-                    b.HasOne("CLD.Models.Category")
-                        .WithMany("Article")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CLD.Models.Consultant", "Consultant")
                         .WithMany("Article")
-                        .HasForeignKey("ConsultantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CLD.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("ConsultantId1");
                 });
 
             modelBuilder.Entity("CLD.Models.ArticleComment", b =>
@@ -449,32 +421,24 @@ namespace CLD.Migrations
                         .HasForeignKey("UserId1");
                 });
 
-            modelBuilder.Entity("CLD.Models.Consultant", b =>
-                {
-                    b.HasOne("CLD.Models.User")
-                        .WithMany("Consultant")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("CLD.Models.ConsultantExpertise", b =>
                 {
-                    b.HasOne("CLD.Models.Consultant", "Consultant")
-                        .WithMany("ConsultantExpertise")
-                        .HasForeignKey("ConsultantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CLD.Models.Expertise", "Expertise")
                         .WithMany("ConsultantExpertise")
                         .HasForeignKey("ExpertiseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CLD.Models.Consultant", "Consultant")
+                        .WithMany("ConsultantExpertise")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.HasOne("CLD.Models.Category", "Category")
-                        .WithMany("Question")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("CLD.Models.Expertise", "Expertise")
+                        .WithMany()
+                        .HasForeignKey("ExpertiseId1");
 
                     b.HasOne("CLD.Models.User", "User")
                         .WithMany("Question")

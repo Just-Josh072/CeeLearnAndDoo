@@ -32,8 +32,8 @@ namespace CLD.Controllers
                 uvm.Email = user.Email;
                 uvm.Firstname = user.UserName;
                 uvm.Id = user.Id;
-                
-               
+
+
 
                 list.Add(uvm);
             }

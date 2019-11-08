@@ -14,12 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191108123948_gefixtemodels.cs" />
-    <Compile Remove="Migrations\20191108123948_gefixtemodels.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="Areas\Consultant\Controllers\AnswersController.cs" />
+    <Compile Include="Areas\Consultant\Controllers\ConsultantsController.cs" />
     <Compile Include="Areas\Consultant\Models\Answer.cs" />
     <Compile Include="Areas\Consultant\Models\Article.cs" />
   </ItemGroup>

@@ -19,11 +19,11 @@ namespace CLD.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ConsultantExpertise>()
-        .HasKey(bc => new { bc.ConsultantId, bc.ExpertiseId });
+        .HasKey(bc => new { bc.UserId, bc.ExpertiseId });
             modelBuilder.Entity<ConsultantExpertise>()
                 .HasOne(bc => bc.Consultant)
                 .WithMany(b => b.ConsultantExpertise)
-                .HasForeignKey(bc => bc.ConsultantId);
+                .HasForeignKey(bc => bc.UserId);
             modelBuilder.Entity<ConsultantExpertise>()
                 .HasOne(bc => bc.Expertise)
                 .WithMany(c => c.ConsultantExpertise)
