@@ -37,6 +37,8 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public bool IsConsultant { get; set; }
+
         public class InputModel
         {
             [Required]

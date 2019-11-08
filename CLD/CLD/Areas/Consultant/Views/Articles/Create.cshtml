@@ -1,0 +1,68 @@
+﻿@model CLD.Models.Article
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Consultant/Views/Shared/_Layout.cshtml";
+}
+
+    <head>
+        <script src="https://cdn.tiny.cloud/1/n81yrwymvhgop71oizp7853121lfyiuvlilb9woa3yt2y04i/tinymce/5/tinymce.min.js"></script>
+        <script>
+        tinymce.init({
+            selector: '#Content',
+            plugins: 'codesample emoticons',
+            height: 500,
+            width: 1000,
+            codesample_languages: [
+                { text: 'HTML/XML', value: 'markup' },
+                { text: 'JavaScript', value: 'javascript' },
+                { text: 'CSS', value: 'css' },
+                { text: 'PHP', value: 'php' },
+                { text: 'Ruby', value: 'ruby' },
+                { text: 'Python', value: 'python' },
+                { text: 'Java', value: 'java' },
+                { text: 'C', value: 'c' },
+                { text: 'C#', value: 'csharp' },
+                { text: 'C++', value: 'cpp' }
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect | codesample | emoticons |"
+        });
+        </script>
+    </head>
+
+<h1>Create</h1>
+
+<h4>Article</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label><br />
+                <textarea id="Content" asp-for="Content"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsVisible" /> @Html.DisplayNameFor(model => model.IsVisible)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -16,6 +16,12 @@ namespace CLD.Models
         public string Content { get; set; }
         public bool IsVisible { get; set; }
         public ICollection<ArticleComment> ArticleComment { get; set; }
+        public Article()
+        {
+            CreationDate = DateTime.Now;
+
+        }
+
     }
 
     public class ArticleComment

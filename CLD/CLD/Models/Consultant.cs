@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace CLD.Models
 {//  Gemaakt door iemand met Dyslexie *kuch* Joshua *kuch*
     //je moet inloggen als admin #kijkInDe:Seed.cs
-    public class Consultant
+    public class Consultant : User
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
+        public int ConsultantId { get; set; }
         [Display(Name = "Foto")]
         public string ImageUrl { get; set; }
         public string GetProfileImageUrl()
@@ -32,12 +31,12 @@ namespace CLD.Models
     {
         public Expertise Expertise { get; set; }
         public Consultant Consultant { get; set; }
-        public int ConsultantId { get; set; }
-        public int ExpertiseId { get; set; }
+        public string UserId { get; set; }
+        public string ExpertiseId { get; set; }
     }
     public class Expertise
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string ExpretiseName { get; set; }
         public ICollection<ConsultantExpertise> ConsultantExpertise { get; set; }
     }
