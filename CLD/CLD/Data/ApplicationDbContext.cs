@@ -7,7 +7,7 @@ using CLD.Models;
 
 namespace CLD.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -35,7 +35,7 @@ namespace CLD.Data
 
     
       public DbSet<CLD.Models.Consultant> Consultant { get; set; }
-        public DbSet<CLD.Models.User> User { get; set; }
+        public DbSet<CLD.Models.ApplicationUser> ApplicationUser { get; set; }
         public DbSet<CLD.Models.Contact> Contact { get; set; }
         public DbSet<CLD.Models.Question> Question { get; set; }
         public DbSet<CLD.Models.Expertise> Expertise { get; set; }

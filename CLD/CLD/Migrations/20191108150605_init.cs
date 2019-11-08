@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CLD.Migrations
 {
-    public partial class InitializeDb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,11 +41,11 @@ namespace CLD.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
                     Firstname = table.Column<string>(nullable: true),
                     Middlename = table.Column<string>(nullable: true),
                     Lastname = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     IsConsultant = table.Column<bool>(nullable: true),
                     ConsultantId = table.Column<int>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),

@@ -12,12 +12,12 @@ namespace CLD.Controllers
     public class UsersController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
 
 
-        public UsersController(Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public UsersController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -25,12 +25,15 @@ namespace CLD.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            List<User> list = new List<User>();
+            List<ApplicationUser> list = new List<ApplicationUser>();
             foreach (var user in _userManager.Users)
             {
-                User uvm = new User();
+                ApplicationUser uvm = new ApplicationUser();
                 uvm.Email = user.Email;
-                uvm.Firstname = user.UserName;
+                uvm.Firstname = user.Firstname;
+                uvm.Middlename = user.Middlename;
+                uvm.Lastname = user.Lastname;
+               
                 uvm.Id = user.Id;
 
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CLD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191108135313_InitializeDb")]
-    partial class InitializeDb
+    [Migration("20191108154316_customuserdata")]
+    partial class customuserdata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,70 @@ namespace CLD.Migrations
                     b.HasIndex("ConsultantId1");
 
                     b.ToTable("Answer");
+                });
+
+            modelBuilder.Entity("CLD.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("Firstname");
+
+                    b.Property<string>("Lastname");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Middlename");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("CLD.Models.Article", b =>
@@ -75,6 +139,8 @@ namespace CLD.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<int>("ArticleId");
 
                     b.Property<string>("Content");
@@ -83,13 +149,11 @@ namespace CLD.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<string>("UserId1");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("ArticleComment");
                 });
@@ -153,6 +217,8 @@ namespace CLD.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreationDate");
@@ -165,15 +231,13 @@ namespace CLD.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<string>("UserId1");
-
                     b.Property<bool>("isVisible");
 
                     b.HasKey("QuestionId");
 
-                    b.HasIndex("ExpertiseId1");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("ExpertiseId1");
 
                     b.ToTable("Question");
                 });
@@ -237,62 +301,6 @@ namespace CLD.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -365,26 +373,9 @@ namespace CLD.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CLD.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<string>("Firstname");
-
-                    b.Property<bool>("IsConsultant");
-
-                    b.Property<string>("Lastname");
-
-                    b.Property<string>("Middlename");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("CLD.Models.Consultant", b =>
                 {
-                    b.HasBaseType("CLD.Models.User");
+                    b.HasBaseType("CLD.Models.ApplicationUser");
 
                     b.Property<string>("Biography");
 
@@ -411,14 +402,14 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.ArticleComment", b =>
                 {
+                    b.HasOne("CLD.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ArticleComment")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("CLD.Models.Article", "Article")
                         .WithMany("ArticleComment")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CLD.Models.User", "User")
-                        .WithMany("ArticleComment")
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CLD.Models.ConsultantExpertise", b =>
@@ -436,13 +427,13 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
+                    b.HasOne("CLD.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Question")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("CLD.Models.Expertise", "Expertise")
                         .WithMany()
                         .HasForeignKey("ExpertiseId1");
-
-                    b.HasOne("CLD.Models.User", "User")
-                        .WithMany("Question")
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CLD.Models.QuestionComment", b =>
@@ -463,7 +454,7 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("CLD.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -471,7 +462,7 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("CLD.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -484,7 +475,7 @@ namespace CLD.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("CLD.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -492,7 +483,7 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("CLD.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

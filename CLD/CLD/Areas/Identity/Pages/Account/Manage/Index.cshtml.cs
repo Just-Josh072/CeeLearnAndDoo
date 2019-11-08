@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CLD.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,13 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -28,6 +29,9 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string Firstname { get; set; }
+        public string Middlename { get; set; }
+        public string Lastname { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 
@@ -37,13 +41,20 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public bool IsConsultant { get; set; }
+        
+
 
         public class InputModel
         {
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            public string Firstname { get; set; }
+            [Required]
+            public string Middlename { get; set; }
+            [Required]
+            public string Lastname { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
@@ -67,7 +78,11 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Firstname = user.Firstname,
+                Middlename = user.Middlename,
+                Lastname = user.Lastname
+
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -108,6 +123,20 @@ namespace CLD.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
+            }
+
+            if (Input.Firstname != user.Firstname)
+            {
+                user.Firstname = Input.Firstname;
+               
+            }
+            if (Input.Lastname != user.Lastname)
+            {
+                user.Lastname = Input.Lastname;
+            }
+            if (Input.Middlename != user.Middlename)
+            {
+                user.Middlename = Input.Middlename;
             }
 
             await _signInManager.RefreshSignInAsync(user);

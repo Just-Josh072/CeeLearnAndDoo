@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CLD.Models
 {
-    public class UserViewModel : IdentityUser
+    public class UserViewModel : ApplicationUser
     {
-        public User User { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public List<User> Users { get; set; }
+        public List<ApplicationUser> Users { get; set; }
     }
 }

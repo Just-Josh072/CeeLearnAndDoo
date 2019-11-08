@@ -9,7 +9,7 @@ namespace CLD.Models
     {
         public int QuestionId { get; set; }
         public Expertise Expertise { get; set; }
-        public User User { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public int UserId { get; set; }
         public int ExpertiseId { get; set; }
         public string Content { get; set; }

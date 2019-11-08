@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CLD.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CLD.Data
     public class Seed
     {
         
-            public static void SeedUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            public static void SeedUsers(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             {
                 if (roleManager.FindByNameAsync("Admin").Result == null)
                 {
@@ -19,7 +20,7 @@ namespace CLD.Data
                 }
                 if (userManager.FindByEmailAsync("admin@admin.com").Result == null)
                 {
-                    IdentityUser user = new IdentityUser
+                    ApplicationUser user = new ApplicationUser
                     {
                         UserName = "admin@admin.com",
                         Email = "admin@admin.com"
@@ -42,7 +43,7 @@ namespace CLD.Data
             }
             if (userManager.FindByEmailAsync("Consultant@Consultant.com").Result == null)
             {
-                IdentityUser user = new IdentityUser
+                ApplicationUser user = new ApplicationUser
                 {
                     UserName = "Consultant@Consultant.com",
                     Email = "Consultant@Consultant.com"

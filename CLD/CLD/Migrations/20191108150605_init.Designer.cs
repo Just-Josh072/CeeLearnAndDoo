@@ -4,14 +4,16 @@ using CLD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CLD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108150605_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +51,6 @@ namespace CLD.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<DateTime>("CreationDate");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -137,8 +137,6 @@ namespace CLD.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<int>("ArticleId");
 
                     b.Property<string>("Content");
@@ -147,11 +145,13 @@ namespace CLD.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<string>("UserId1");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ArticleComment");
                 });
@@ -215,8 +215,6 @@ namespace CLD.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreationDate");
@@ -229,13 +227,15 @@ namespace CLD.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<string>("UserId1");
+
                     b.Property<bool>("isVisible");
 
                     b.HasKey("QuestionId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("ExpertiseId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Question");
                 });
@@ -371,9 +371,20 @@ namespace CLD.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CLD.Models.Consultant", b =>
+            modelBuilder.Entity("CLD.Models.User", b =>
                 {
                     b.HasBaseType("CLD.Models.ApplicationUser");
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<bool>("IsConsultant");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
+            modelBuilder.Entity("CLD.Models.Consultant", b =>
+                {
+                    b.HasBaseType("CLD.Models.User");
 
                     b.Property<string>("Biography");
 
@@ -400,14 +411,14 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.ArticleComment", b =>
                 {
-                    b.HasOne("CLD.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ArticleComment")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("CLD.Models.Article", "Article")
                         .WithMany("ArticleComment")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CLD.Models.User", "User")
+                        .WithMany("ArticleComment")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CLD.Models.ConsultantExpertise", b =>
@@ -425,13 +436,13 @@ namespace CLD.Migrations
 
             modelBuilder.Entity("CLD.Models.Question", b =>
                 {
-                    b.HasOne("CLD.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Question")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("CLD.Models.Expertise", "Expertise")
                         .WithMany()
                         .HasForeignKey("ExpertiseId1");
+
+                    b.HasOne("CLD.Models.User", "User")
+                        .WithMany("Question")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CLD.Models.QuestionComment", b =>

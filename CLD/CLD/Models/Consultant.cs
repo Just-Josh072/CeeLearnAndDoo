@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CLD.Models
 {//  Gemaakt door iemand met Dyslexie *kuch* Joshua *kuch*
     //je moet inloggen als admin #kijkInDe:Seed.cs
-    public class Consultant : User
+    public class Consultant : ApplicationUser
     {
         public int ConsultantId { get; set; }
         [Display(Name = "Foto")]
