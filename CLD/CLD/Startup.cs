@@ -67,7 +67,7 @@ namespace CLD
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            Seed.SeedUsers(userManager, roleManager);
+            //Seed.SeedUsers(userManager, roleManager);
             app.UseMvc(routes =>
             {
                 routes.MapAreaRoute(
