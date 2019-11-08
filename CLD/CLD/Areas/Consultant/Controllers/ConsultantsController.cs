@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CLD.Controllers
 {
-    [Authorize(Roles= "Consultant")]
+   // inlog is stuk  [Authorize(Roles= "Consultant")]
     public class ConsultantsController : Controller
     {
         private readonly ApplicationDbContext _context;

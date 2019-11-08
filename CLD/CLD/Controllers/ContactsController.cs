@@ -153,7 +153,7 @@ namespace CLD.Controllers
             return _context.Contact.Any(e => e.Id == id);
         }
         //View: Contact
-        [Authorize]
+       // [Authorize]
         public IActionResult Contact()
         {
             return View();
@@ -162,7 +162,7 @@ namespace CLD.Controllers
         // POST: Mail + Add into Database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Contact(Contact info)
         {
             MailMessage msg = new MailMessage(); //Contains the form info
