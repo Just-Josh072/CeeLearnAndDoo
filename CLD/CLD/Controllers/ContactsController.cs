@@ -9,6 +9,7 @@ using CLD.Data;
 using CLD.Models;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CLD.Controllers
 {
@@ -152,6 +153,7 @@ namespace CLD.Controllers
             return _context.Contact.Any(e => e.Id == id);
         }
         //View: Contact
+        [Authorize]
         public IActionResult Contact()
         {
             return View();
@@ -160,6 +162,7 @@ namespace CLD.Controllers
         // POST: Mail + Add into Database
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Contact(Contact info)
         {
             MailMessage msg = new MailMessage(); //Contains the form info

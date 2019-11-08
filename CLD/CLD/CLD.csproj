@@ -56,6 +56,7 @@
     <None Include="Areas\admin\_ViewImports.cshtml" />
     <None Include="Areas\admin\_ViewStart.cshtml" />
     <None Include="wwwroot\img\avataaars.svg" />
+    <None Include="wwwroot\mail\contact_me.php" />
     <None Include="wwwroot\vendor\bootstrap\js\bootstrap.bundle.js" />
     <None Include="wwwroot\vendor\bootstrap\js\bootstrap.bundle.js.map" />
     <None Include="wwwroot\vendor\bootstrap\js\bootstrap.bundle.min.js" />
