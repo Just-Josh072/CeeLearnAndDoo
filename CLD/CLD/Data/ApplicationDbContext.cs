@@ -38,6 +38,6 @@ namespace CLD.Data
         public DbSet<CLD.Models.User> User { get; set; }
         public DbSet<CLD.Models.Contact> Contact { get; set; }
         public DbSet<CLD.Models.Question> Question { get; set; }
-        public DbSet<CLD.Models.Category> Category { get; set; }
+        public DbSet<CLD.Models.Expertise> Expertise { get; set; }
     }
 }

@@ -7,11 +7,11 @@ namespace CLD.Models
 {
     public class Question
     {
-        public int Id { get; set; }
-        public Category Category { get; set; }
+        public int QuestionId { get; set; }
+        public Expertise Expertise { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public int CategoryId { get; set; }
+        public int ExpertiseId { get; set; }
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
         public Question()
@@ -29,6 +29,13 @@ namespace CLD.Models
         public int QuestionId { get; set; }
         public string Content { get; set; }
 
+    }
+    public class QuestionExpertise
+    {
+        public Expertise Expertise { get; set; }
+        public Question Question { get; set; }
+        public int QuestionId { get; set; }
+        public int ExpertiseId { get; set; }
     }
 
 }

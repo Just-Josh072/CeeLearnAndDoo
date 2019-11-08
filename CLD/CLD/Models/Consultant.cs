@@ -38,7 +38,7 @@ namespace CLD.Models
     public class Expertise
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string ExpretiseName { get; set; }
         public ICollection<ConsultantExpertise> ConsultantExpertise { get; set; }
     }
 }

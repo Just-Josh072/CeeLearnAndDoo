@@ -22,7 +22,7 @@ namespace CLD.Controllers
         // GET: Questions
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Question.Include(q => q.Category);
+            var applicationDbContext = _context.Question.Include(q => q.Expertise);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,8 +35,8 @@ namespace CLD.Controllers
             }
 
             var question = await _context.Question
-                .Include(q => q.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(q => q.Expertise)
+                .FirstOrDefaultAsync(m => m.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace CLD.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", question.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Set<Expertise>(), "Id", "Id", question.ExpertiseId);
             return View(question);
         }
 
@@ -69,7 +69,7 @@ namespace CLD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("QuestionId,UserId,CategoryId,QuestionContent,CreationDate,isVisible,QuestionTitle")] Question question)
         {
-            if (id != question.Id)
+            if (id != question.QuestionId)
             {
                 return NotFound();
             }
@@ -83,7 +83,7 @@ namespace CLD.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionExists(question.Id))
+                    if (!QuestionExists(question.QuestionId))
                     {
                         return NotFound();
                     }
@@ -94,7 +94,7 @@ namespace CLD.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", question.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Set<Expertise>(), "Id", "Id", question.ExpertiseId);
             return View(question);
         }
 
@@ -107,8 +107,8 @@ namespace CLD.Controllers
             }
 
             var question = await _context.Question
-                .Include(q => q.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(q => q.Expertise)
+                .FirstOrDefaultAsync(m => m.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -130,7 +130,7 @@ namespace CLD.Controllers
 
         private bool QuestionExists(int id)
         {
-            return _context.Question.Any(e => e.Id == id);
+            return _context.Question.Any(e => e.QuestionId == id);
         }
         public async Task<IActionResult> QuestionView()
         {

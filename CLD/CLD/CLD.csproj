@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191108123948_gefixtemodels.cs" />
+    <Compile Remove="Migrations\20191108123948_gefixtemodels.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Areas\Consultant\Views\Shared\_Layout.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
