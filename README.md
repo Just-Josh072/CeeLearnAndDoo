@@ -1,4 +1,3 @@
 # CeeLearnAndDoo
 
-EEEEEYYYY BITCH BOYS GA AAN JE WERK
 develop
