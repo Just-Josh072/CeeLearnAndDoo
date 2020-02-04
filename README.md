@@ -1,4 +1,3 @@
 # CeeLearnAndDoo
 
-EEEEEYYYY BOYS GA AAN JE WERK
-master
+A project for school
